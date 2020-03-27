@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1584828256 source:/home/gabriele/DevWorkspaceGames/space-shooter/Bullet.cpp
+	"Bullet.h"
+
+1584827731 /home/gabriele/DevWorkspaceGames/space-shooter/include/Bullet.h
+	<SFML/Graphics.hpp>
+	<SFML/System.hpp>
+	<SFML/Audio.hpp>
+	<iostream>
+	<vector>
+
+1584904302 source:/home/gabriele/DevWorkspaceGames/space-shooter/main.cpp
+	"Game.h"
+
+1584481003 /home/gabriele/DevWorkspaceGames/space-shooter/include/Game.h
+	"Player.h"
+
+1585254514 /home/gabriele/DevWorkspaceGames/space-shooter/include/Player.h
+	"Bullet.h"
+
+1585256569 source:/home/gabriele/DevWorkspaceGames/space-shooter/Player.cpp
+	"Player.h"
+
+1584904366 source:/home/gabriele/DevWorkspaceGames/space-shooter/Game.cpp
+	"Game.h"
+	<iostream>
+
