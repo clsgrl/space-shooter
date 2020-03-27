@@ -7,7 +7,6 @@ using namespace sf;
 class Player
 {
     public:
-        Player(Texture* texture, Texture* bulletTexture, int UP = 28, int DOWN = 18, int LEFT = 0, int RIGHT = 3, int SHOOT = 57);
         Player(Texture* texture, Texture* bulletTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT);
         virtual ~Player();
 
@@ -51,7 +50,6 @@ class Player
 
         std::vector<Bullet> bullets;
 
-        int controls[5];
         Keyboard::Key controlsKey[5];
 
         Vector2f currentVelocity;

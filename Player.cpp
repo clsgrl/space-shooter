@@ -4,34 +4,6 @@ unsigned Player::playerNr = 0;
 
 enum controls { UP = 0, DOWN, LEFT, RIGHT, SHOOT };
 
-Player::Player(Texture* texture, Texture* bulletTexture, int UP, int DOWN, int LEFT, int RIGHT, int SHOOT)
-    : level(1), exp(0), expNext(100), hp(10), hpMax(10), damage(1), damageMax(2), score(0)
-{
-    this->texture = texture;
-    this->bulletTexture = bulletTexture;
-    this->sprite.setTexture(*this->texture);
-    this->sprite.setScale(0.12f, 0.12f);
-
-    this->shootTimerMax = 25;
-    this->shootTimer = this->shootTimerMax;
-
-    this->damageTimerMax = 10;
-    this->damageTimer = this->damageTimerMax;
-
-    this->controls[controls::UP] = UP;
-    this->controls[controls::DOWN] = DOWN;
-    this->controls[controls::LEFT] = LEFT;
-    this->controls[controls::RIGHT] = RIGHT;
-    this->controls[controls::SHOOT] = SHOOT;
-
-    this->stabilizerForce = 0.3f;
-    this->maxVelocity = 20.f;
-    this->acceleration = 1.f;
-
-    Player::playerNr++;
-    this->playerNumber = Player::playerNr;
-}
-
 Player::Player(Texture* texture, Texture* bulletTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT)
     : level(1), exp(0), expNext(100), hp(10), hpMax(10), damage(1), damageMax(2), score(0)
 {
@@ -69,7 +41,6 @@ void Player::Movement()
 {
 
     if (Keyboard::isKeyPressed(this->controlsKey[controls::UP]))
-    //if (Keyboard::isKeyPressed(Keyboard::Key(this->controls[controls::UP])))
     {
         direction.x = 0.f;
         direction.y = -1.f;
