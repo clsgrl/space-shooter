@@ -1,16 +1,23 @@
 #include "Player.h"
+#include <iostream>
 
 unsigned Player::playerNr = 0;
 
 enum controls { UP = 0, DOWN, LEFT, RIGHT, SHOOT };
 
-Player::Player(Texture* texture, Texture* bulletTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT)
+Player::Player(Texture* texture, Texture* bulletTexture, Texture* mainGunTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT)
     : level(1), exp(0), expNext(100), hp(10), hpMax(10), damage(1), damageMax(2), score(0)
 {
     this->texture = texture;
     this->bulletTexture = bulletTexture;
     this->sprite.setTexture(*this->texture);
     this->sprite.setScale(0.12f, 0.12f);
+
+    this->mainGunTexture = mainGunTexture;
+    this->mainGunSprite.setTexture(*this->mainGunTexture);
+    this->mainGunSprite.setOrigin(this->mainGunSprite.getGlobalBounds().width / 2,
+                                  this->mainGunSprite.getGlobalBounds().height / 2);
+    this->mainGunSprite.rotate(90);
 
     this->shootTimerMax = 25;
     this->shootTimer = this->shootTimerMax;
@@ -35,6 +42,16 @@ Player::Player(Texture* texture, Texture* bulletTexture, Keyboard::Key UP, Keybo
 Player::~Player()
 {
     //dtor
+}
+
+void Player::UpdateAccessories()
+{
+    this->mainGunSprite.setPosition(
+        this->playerCenter.x,
+        this->playerCenter.y);
+
+    // std::cout << "gun position " << this->mainGunSprite.getPosition().x << " " << this->mainGunSprite.getPosition().y << "\n";
+
 }
 
 void Player::Movement()
@@ -108,6 +125,10 @@ void Player::Movement()
 
     //final move
     this->sprite.move(this->currentVelocity.x, this->currentVelocity.y);
+
+    //update position
+    this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width/2;
+    this->playerCenter.y = this->sprite.getPosition().y + this->sprite.getGlobalBounds().height/2;
 }
 
 void Player::Combat()
@@ -132,11 +153,8 @@ void Player::Update(Vector2u windowBound)
     if (this->damageTimer < this->damageTimerMax)
         this->damageTimer++;
 
-    //update position
-    this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width/2;
-    this->playerCenter.y = this->sprite.getPosition().y + this->sprite.getGlobalBounds().height/2;
-
     this->Movement();
+    this->UpdateAccessories();
     this->Combat();
 }
 
@@ -147,4 +165,5 @@ void Player::Draw(RenderTarget& target)
         this->bullets[i].Draw(target);
     }
     target.draw(this->sprite);
+    target.draw(this->mainGunSprite);
 }

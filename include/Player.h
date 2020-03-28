@@ -7,7 +7,7 @@ using namespace sf;
 class Player
 {
     public:
-        Player(Texture* texture, Texture* bulletTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT);
+        Player(Texture* texture, Texture* bulletTexture, Texture* mainGunTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT);
         virtual ~Player();
 
         //Accessprs
@@ -23,6 +23,7 @@ class Player
         inline const String getHpAsString() const { return std::to_string(this->hp) + "/" + std::to_string(this->hpMax); }
 
         //Functions
+        void UpdateAccessories();
         void Combat();
         void Movement();
         void Update(Vector2u windowBound);
@@ -45,8 +46,11 @@ class Player
 
         Texture* texture;
         Texture* bulletTexture;
+        Texture* mainGunTexture;
         Sprite sprite;
         RectangleShape hitBox;
+
+        Sprite mainGunSprite;
 
         std::vector<Bullet> bullets;
 

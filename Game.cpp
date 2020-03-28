@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <iostream>
 
 Game::Game(RenderWindow* window)
 {
@@ -12,9 +11,10 @@ Game::Game(RenderWindow* window)
     //Init textures;
     this->playerTexture.loadFromFile("Textures/ship.png");
     this->bulletTexture.loadFromFile("Textures/Guns/missileTex01.png");
+    this->gunTexture01.loadFromFile("Textures/Guns/gun01.png");
     //Init player
 
-    players.push_back(Player(&playerTexture, &bulletTexture, sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Space ));
+    players.push_back(Player(&playerTexture, &bulletTexture, &gunTexture01, sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Space ));
 
     this->InitUI();
 }

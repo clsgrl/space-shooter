@@ -30,5 +30,6 @@ class Game
         std::vector<Player> players;
         Texture playerTexture;
         Texture bulletTexture;
+        Texture gunTexture01;
 
 };
