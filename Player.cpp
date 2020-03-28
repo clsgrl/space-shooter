@@ -54,6 +54,20 @@ void Player::UpdateAccessories()
 
 }
 
+void Player::MovementJoystick()
+{
+    float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+    float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+    //final move
+    this->sprite.move(x, y);
+
+    //update position
+    this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width / 2;
+    this->playerCenter.y = this->sprite.getPosition().y + this->sprite.getGlobalBounds().height / 2;
+}
+
+
 void Player::Movement()
 {
 
@@ -133,7 +147,9 @@ void Player::Movement()
 
 void Player::Combat()
 {
-    if (Keyboard::isKeyPressed(this->controlsKey[controls::SHOOT]) && this->shootTimer >= this->shootTimerMax)
+    if ((Keyboard::isKeyPressed(this->controlsKey[controls::SHOOT]) ||
+        sf::Joystick::isButtonPressed(0, 1))
+        && this->shootTimer >= this->shootTimerMax)
     {
         this->bullets.push_back(
             Bullet(bulletTexture, this->playerCenter,
@@ -142,7 +158,6 @@ void Player::Combat()
         this->shootTimer = 0; // reset timer
     }
 }
-
 
 void Player::Update(Vector2u windowBound)
 {
@@ -153,7 +168,10 @@ void Player::Update(Vector2u windowBound)
     if (this->damageTimer < this->damageTimerMax)
         this->damageTimer++;
 
-    this->Movement();
+    if (sf::Joystick::isConnected(0))
+        this->MovementJoystick();
+    else
+        this->Movement();
     this->UpdateAccessories();
     this->Combat();
 }
