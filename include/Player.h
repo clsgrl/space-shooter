@@ -25,6 +25,7 @@ class Player
         //Functions
         void UpdateAccessories();
         void Combat();
+        void MovementMouse();
         void MovementJoystick();
         void Movement();
         void Update(Vector2u windowBound);

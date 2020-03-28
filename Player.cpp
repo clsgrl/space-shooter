@@ -54,6 +54,19 @@ void Player::UpdateAccessories()
 
 }
 
+void Player::MovementMouse()
+{
+    //this should be changed with getPosition(window) to get the local position of the mouse inside the window.
+    sf::Vector2i localPosition = sf::Mouse::getPosition();
+
+    this->sprite.move(localPosition.x, localPosition.y);
+
+    //update position
+    this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width / 2;
+    this->playerCenter.y = this->sprite.getPosition().y + this->sprite.getGlobalBounds().height / 2;
+
+}
+
 void Player::MovementJoystick()
 {
     float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -70,7 +83,6 @@ void Player::MovementJoystick()
 
 void Player::Movement()
 {
-
     if (Keyboard::isKeyPressed(this->controlsKey[controls::UP]))
     {
         direction.x = 0.f;
@@ -148,7 +160,8 @@ void Player::Movement()
 void Player::Combat()
 {
     if ((Keyboard::isKeyPressed(this->controlsKey[controls::SHOOT]) ||
-        sf::Joystick::isButtonPressed(0, 1))
+        sf::Joystick::isButtonPressed(0, 1) ||
+         sf::Mouse::isButtonPressed(sf::Mouse::Left))
         && this->shootTimer >= this->shootTimerMax)
     {
         this->bullets.push_back(
