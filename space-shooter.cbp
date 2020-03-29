@@ -45,9 +45,11 @@
 		<Unit filename="Game.cpp" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="include/Bullet.h" />
+		<Unit filename="include/Enemy.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/Player.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Enemy.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
