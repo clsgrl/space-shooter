@@ -66,9 +66,11 @@ void Game::UpdateUI()
 
 void Game::Update()
 {
+    sf::Vector2u windowSize = this->window->getSize();
     for (size_t i = 0; i < players.size(); i++)
     {
-        players[i].Update(this->window->getSize());
+        this->window->getSize();
+        players[i].Update(windowSize);
 
         //bullets update
         for (size_t j = 0; j < this->players[i].getBullets().size(); j++)

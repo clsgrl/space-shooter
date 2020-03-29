@@ -37,6 +37,8 @@ Player::Player(Texture* texture, Texture* bulletTexture, Texture* mainGunTexture
 
     Player::playerNr++;
     this->playerNumber = Player::playerNr;
+
+    std::cout << "player position: " << this->sprite.getPosition().x << " " << this->sprite.getPosition().y << "\n";
 }
 
 Player::~Player()
@@ -153,15 +155,17 @@ void Player::Movement()
     this->sprite.move(this->currentVelocity.x, this->currentVelocity.y);
 
     //update position
-    this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width/2;
-    this->playerCenter.y = this->sprite.getPosition().y + this->sprite.getGlobalBounds().height/2;
+    this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width / 2;
+    this->playerCenter.y = this->sprite.getPosition().y + this->sprite.getGlobalBounds().height / 2;
+
+    //std::cout << "player position= " << this->sprite.getPosition().x << " " << this->sprite.getPosition().y << "\n";
 }
 
 void Player::Combat()
 {
     if ((Keyboard::isKeyPressed(this->controlsKey[controls::SHOOT]) ||
-        sf::Joystick::isButtonPressed(0, 1) ||
-         sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        sf::Joystick::isButtonPressed(0, 1)
+         /*|| sf::Mouse::isButtonPressed(sf::Mouse::Left)*/)
         && this->shootTimer >= this->shootTimerMax)
     {
         this->bullets.push_back(
@@ -172,22 +176,38 @@ void Player::Combat()
     }
 }
 
-void Player::Update(Vector2u windowBound)
+void Player::Update(Vector2u& windowBound)
 {
-    //update timers
-    if (this->shootTimer < this->shootTimerMax)
-        this->shootTimer++;
+    if (this->sprite.getPosition().x >= 0 && this->sprite.getPosition().x < windowBound.x
+        && this->sprite.getPosition().y >= 0 && this->sprite.getPosition().y < windowBound.y)
+    {
+        //update timers
+        if (this->shootTimer < this->shootTimerMax)
+            this->shootTimer++;
 
-    if (this->damageTimer < this->damageTimerMax)
-        this->damageTimer++;
+        if (this->damageTimer < this->damageTimerMax)
+            this->damageTimer++;
 
-    if (sf::Joystick::isConnected(0))
-        this->MovementJoystick();
+        if (sf::Joystick::isConnected(0))
+            this->MovementJoystick();
+        else
+            this->Movement();
+        this->UpdateAccessories();
+        this->Combat();
+    }
     else
-        this->Movement();
-    this->UpdateAccessories();
-    this->Combat();
+    {
+        if (this->sprite.getPosition().x < 0)
+            this->sprite.setPosition(0, this->sprite.getPosition().y);
+        if (this->sprite.getPosition().x > windowBound.x)
+            this->sprite.setPosition(windowBound.x - 10, this->sprite.getPosition().y);
+        if (this->sprite.getPosition().y < 0)
+            this->sprite.setPosition(this->sprite.getPosition().x, 0);
+        if (this->sprite.getPosition().y > windowBound.y)
+            this->sprite.setPosition(this->sprite.getPosition().x, windowBound.y - 5);
+    }
 }
+
 
 void Player::Draw(RenderTarget& target)
 {
