@@ -87,37 +87,37 @@ void Player::Movement()
 {
     if (Keyboard::isKeyPressed(this->controlsKey[controls::UP]))
     {
-        direction.x = 0.f;
-        direction.y = -1.f;
+        this->direction.x = 0.f;
+        this->direction.y = -1.f;
 
         if (this->currentVelocity.y > -this->maxVelocity && this->direction.y < 0.f)
-            this->currentVelocity.y += direction.y * this->acceleration;
+            this->currentVelocity.y += this->direction.y * this->acceleration;
     }
     if (Keyboard::isKeyPressed(this->controlsKey[controls::DOWN]))
     {
-        direction.x = 0.f;
-        direction.y = 1.f;
+        this->direction.x = 0.f;
+        this->direction.y = 1.f;
 
         if (this->currentVelocity.y < this->maxVelocity && this->direction.y > 0.f)
-            this->currentVelocity.y += direction.y * this->acceleration;
+            this->currentVelocity.y += this->direction.y * this->acceleration;
     }
 
     if (Keyboard::isKeyPressed(this->controlsKey[controls::LEFT]))
     {
-        direction.x = -1.f;
-        direction.y = 0.f;
+        this->direction.x = -1.f;
+        this->direction.y = 0.f;
 
         if (this->currentVelocity.x > -this->maxVelocity && this->direction.x < 0.f)
-            this->currentVelocity.x += direction.x * this->acceleration;
+            this->currentVelocity.x += this->direction.x * this->acceleration;
 
     }
     if (Keyboard::isKeyPressed(this->controlsKey[controls::RIGHT]))
     {
-        direction.x = 1.f;
-        direction.y = 0.f;
+        this->direction.x = 1.f;
+        this->direction.y = 0.f;
 
         if (this->currentVelocity.x < this->maxVelocity && this->direction.x > 0.f)
-            this->currentVelocity.x += direction.x * this->acceleration;
+            this->currentVelocity.x += this->direction.x * this->acceleration;
     }
 
     //drag force

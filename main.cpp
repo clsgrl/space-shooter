@@ -1,6 +1,6 @@
 #include "Game.h"
 
-// 2020-03-22: SFML / C++ Game Development 07 | 2D Space shooter
+// 2020-03-22: SFML / C++ Game Development 10 / 11 | 2D Space shooter
 
 int main()
 {
