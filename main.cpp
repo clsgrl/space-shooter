@@ -1,11 +1,20 @@
 #include "Game.h"
+#include <stdlib.h>
 
 // 2020-03-22: SFML / C++ Game Development 10 / 11 | 2D Space shooter
 
-int main()
+int main(int argc, char* argv[])
 {
+    short w = sf::VideoMode::getDesktopMode().width /2;
+    short h = sf::VideoMode::getDesktopMode().height/2;
+    if(argc>2) {
+      w = strtod( argv[1], 0 );
+      h = strtod( argv[2], 0 );
+    }
+
     // Create the main window
-    RenderWindow window(VideoMode(1024, 768), "Space", Style::Default);
+    
+    RenderWindow window(VideoMode(w, h), "Space", Style::Default);
 
     Game game(&window);
 

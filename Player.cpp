@@ -71,12 +71,15 @@ void Player::MovementMouse()
 
 void Player::MovementJoystick()
 {
-    float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-    float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+    float x = sf::Joystick::getAxisPosition(0.f, sf::Joystick::X);
+    float y = sf::Joystick::getAxisPosition(0.f, sf::Joystick::Y);
+
+    if(x<1. && x>-1.) x=0.0f;
+    if(y<1. && y>-1.) y=0.0f;
 
     //final move
     this->sprite.move(x, y);
-
+    std::cout << "x="<< x << " - y="<< y<<std::endl;
     //update position
     this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width / 2;
     this->playerCenter.y = this->sprite.getPosition().y + this->sprite.getGlobalBounds().height / 2;
