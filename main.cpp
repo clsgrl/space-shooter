@@ -5,15 +5,20 @@
 
 int main(int argc, char* argv[])
 {
-    short w = sf::VideoMode::getDesktopMode().width /2;
-    short h = sf::VideoMode::getDesktopMode().height/2;
-    if(argc>2) {
+    short w = sf::VideoMode::getDesktopMode().width / 1.5;
+    short h = sf::VideoMode::getDesktopMode().height / 1.5;
+    if(argc > 2) {
       w = strtod( argv[1], 0 );
       h = strtod( argv[2], 0 );
     }
+    else
+    {
+        w = 800;
+        h = 600;
+    }
 
     // Create the main window
-    
+
     RenderWindow window(VideoMode(w, h), "Space", Style::Default);
 
     Game game(&window);

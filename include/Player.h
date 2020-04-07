@@ -7,7 +7,7 @@ using namespace sf;
 class Player
 {
     public:
-        Player(Texture* texture, Texture* bulletTexture, Texture* mainGunTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT);
+        Player(std::vector<Texture>& textures, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT);
         virtual ~Player();
 
         //Accessprs

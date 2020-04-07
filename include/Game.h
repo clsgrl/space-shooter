@@ -28,8 +28,9 @@ class Game
         std::vector<Text> staticPlayerTexts;
 
         std::vector<Player> players;
-        Texture playerTexture;
-        Texture bulletTexture;
-        Texture gunTexture01;
+        std::vector<Texture> textures;
+        //Texture playerTexture;
+        //Texture bulletTexture;
+        //Texture gunTexture01;
 
 };

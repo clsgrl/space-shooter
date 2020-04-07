@@ -5,19 +5,12 @@ unsigned Player::playerNr = 0;
 
 enum controls { UP = 0, DOWN, LEFT, RIGHT, SHOOT };
 
-Player::Player(Texture* texture, Texture* bulletTexture, Texture* mainGunTexture, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT)
+Player::Player(std::vector<Texture>& textures, Keyboard::Key UP, Keyboard::Key DOWN, Keyboard::Key LEFT, Keyboard::Key RIGHT, Keyboard::Key SHOOT)
     : level(1), exp(0), expNext(100), hp(10), hpMax(10), damage(1), damageMax(2), score(0)
 {
-    this->texture = texture;
-    this->bulletTexture = bulletTexture;
-    this->sprite.setTexture(*this->texture);
+    this->bulletTexture = &textures[1];
+    this->sprite.setTexture(textures[0]);
     this->sprite.setScale(0.12f, 0.12f);
-
-    this->mainGunTexture = mainGunTexture;
-    this->mainGunSprite.setTexture(*this->mainGunTexture);
-    this->mainGunSprite.setOrigin(this->mainGunSprite.getGlobalBounds().width / 2,
-                                  this->mainGunSprite.getGlobalBounds().height / 2);
-    this->mainGunSprite.rotate(90);
 
     this->shootTimerMax = 25;
     this->shootTimer = this->shootTimerMax;
