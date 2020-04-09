@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Player.h"
+#include "Enemy.h"
 
 class Game
 {
@@ -29,6 +30,7 @@ class Game
 
         std::vector<Player> players;
         std::vector<Texture> textures;
+        std::vector<Enemy> enemies;
         //Texture playerTexture;
         //Texture bulletTexture;
         //Texture gunTexture01;

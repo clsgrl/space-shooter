@@ -5,7 +5,7 @@
 class Enemy
 {
     public:
-        Enemy(Texture* texture, sf::Vector2f position, sf::Vector2f direction, sf::Vector2f scale, int type,
+        Enemy(Texture* texture, sf::Vector2u windowBounds, sf::Vector2f position, sf::Vector2f direction, sf::Vector2f scale, int type,
               int hpMax, int damageMax, int damageMin);
         virtual ~Enemy();
 
@@ -13,9 +13,10 @@ class Enemy
         inline const int getHP() const { return this->hp; }
         inline const int getHPMax() const { return this->hpMax; }
         inline const bool isDead() const { return this->hp <= 0; }
+        inline const sf::FloatRect& getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
+        inline const sf::Vector2f& getPosition() const { return this->sprite.getPosition(); }
 
-
-        void TakeDamage();
+        void TakeDamage(int damage);
         void Update();
         void Draw(RenderTarget& target);
 

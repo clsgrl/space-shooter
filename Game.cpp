@@ -1,6 +1,6 @@
 #include "Game.h"
 
-enum texture { PLAYER = 0, MISSILE};
+enum texture { PLAYER = 0, MISSILE, ENEMY01};
 
 Game::Game(RenderWindow* window)
 {
@@ -15,9 +15,27 @@ Game::Game(RenderWindow* window)
     this->textures[texture::PLAYER].loadFromFile("Textures/ship.png");
     this->textures.push_back(Texture());
     this->textures[texture::MISSILE].loadFromFile("Textures/Guns/missileTex01.png");
+    this->textures.push_back(Texture());
+    this->textures[texture::ENEMY01].loadFromFile("Textures/enemyFollow.png");
     //Init player
 
-    players.push_back(Player(this->textures, sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Space ));
+    this->players.push_back(Player(this->textures, sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Space ));
+
+    this->enemies.push_back(Enemy(&this->textures[texture::ENEMY01],
+                                  this->window->getSize(),
+                                  sf::Vector2f(0.f, 0.f),
+                                  sf::Vector2f(-1.f, 0.f),
+                                  sf::Vector2f(0.1f, 0.1f),
+                                  0, rand() % 3 + 1, 3, 1)
+                            );
+
+    this->enemies.push_back(Enemy(&this->textures[texture::ENEMY01],
+          this->window->getSize(),
+          sf::Vector2f(0.f, 0.f),
+          sf::Vector2f(-1.f, 0.f),
+          sf::Vector2f(0.1f, 0.1f),
+          0, rand() % 3 + 1, 3, 1)
+    );
 
     this->InitUI();
 }
@@ -87,10 +105,14 @@ void Game::Update()
                 //std::cout << "erased bullets" << j << "\n";
                 break;
             }
-
+            //enemies collision check
         }
+    }
 
-        //enemies collision check
+    //enemies update
+    for (size_t i = 0; i < this->enemies.size(); i++)
+    {
+        enemies[i].Update();
     }
 
     //UPDATE UI
@@ -117,6 +139,11 @@ void Game::Draw()
     for (size_t i = 0; i < players.size(); i++)
     {
         this->players[i].Draw(*this->window);
+    }
+
+    for (size_t i = 0; i < this->enemies.size(); i++)
+    {
+        this->enemies[i].Draw(*this->window);
     }
 
     this->DrawUI();
