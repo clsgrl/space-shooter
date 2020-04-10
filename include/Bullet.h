@@ -17,7 +17,7 @@ class Bullet
         virtual ~Bullet();
 
         //Accessprs
-        inline const FloatRect& getGlobalBounds() const
+        inline const FloatRect getGlobalBounds() const
         {
             return this->sprite.getGlobalBounds();
         }

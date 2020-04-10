@@ -8,7 +8,7 @@ Enemy::Enemy(Texture* texture, sf::Vector2u windowBounds, sf::Vector2f position,
     this->texture = texture;
     this->sprite.setTexture(*this->texture);
     this->sprite.setScale(scale);
-    this->sprite.setPosition(windowBounds.x, rand() % windowBounds.y + this->sprite.getGlobalBounds().height);
+    this->sprite.setPosition(windowBounds.x - 100, rand() % windowBounds.y + this->sprite.getGlobalBounds().height);
 
 
     this->type = type;
@@ -39,7 +39,7 @@ void Enemy::Update()
     switch (this->type)
     {
     case 0:
-        this->sprite.move(-10.f, 0.f);
+        this->sprite.move(-1.f, 0.f);
         break;
     default:
         break;

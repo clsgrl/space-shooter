@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <stdlib.h>
 
-// 2020-03-22: SFML / C++ Game Development 10 / 11 | 2D Space shooter
+// 2020-04-10: SFML / C++ Game Development 11 | 2D Space shooter
 
 int main(int argc, char* argv[])
 {
