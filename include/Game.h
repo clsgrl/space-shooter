@@ -31,8 +31,8 @@ class Game
         std::vector<Player> players;
         std::vector<Texture> textures;
         std::vector<Enemy> enemies;
-        //Texture playerTexture;
-        //Texture bulletTexture;
-        //Texture gunTexture01;
+
+        int enemySpawnTimer;
+        int enemySpawnTimerMax;
 
 };

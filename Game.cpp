@@ -21,22 +21,9 @@ Game::Game(RenderWindow* window)
 
     this->players.push_back(Player(this->textures, sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Space ));
 
-    this->enemies.push_back(Enemy(&this->textures[texture::ENEMY01],
-                                  this->window->getSize(),
-                                  sf::Vector2f(0.f, 0.f),
-                                  sf::Vector2f(-1.f, 0.f),
-                                  sf::Vector2f(0.1f, 0.1f),
-                                  0, rand() % 3 + 1, 3, 1)
-                            );
-
-    this->enemies.push_back(Enemy(
-        &this->textures[texture::ENEMY01],
-          this->window->getSize(),
-          sf::Vector2f(0.f, 0.f),
-          sf::Vector2f(-1.f, 0.f),
-          sf::Vector2f(0.1f, 0.1f),
-          0, rand() % 3 + 1, 3, 1)
-    );
+    //TODO: make it configurable
+    this->enemySpawnTimerMax = 100;
+    this->enemySpawnTimer = this->enemySpawnTimerMax;
 
     this->InitUI();
 }
@@ -88,6 +75,23 @@ void Game::UpdateUI()
 
 void Game::Update()
 {
+    //update timers
+    if (this->enemySpawnTimer < this->enemySpawnTimerMax)
+        ++this->enemySpawnTimer;
+
+    //spawn enemies
+    if (this->enemySpawnTimer >= this->enemySpawnTimerMax)
+    {
+        this->enemies.push_back(Enemy(&this->textures[texture::ENEMY01],
+          this->window->getSize(),
+          sf::Vector2f(0.f, 0.f),
+          sf::Vector2f(-1.f, 0.f),
+          sf::Vector2f(0.1f, 0.1f),
+          0, rand() % 3 + 1, 3, 1));
+        this->enemySpawnTimer = 0;
+    }
+
+
     sf::Vector2u windowSize = this->window->getSize();
     for (size_t i = 0; i < players.size(); i++)
     {
