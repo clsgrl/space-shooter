@@ -17,6 +17,7 @@ class Enemy
         inline sf::Vector2f getPosition() const { return this->sprite.getPosition(); }
 
         void TakeDamage(int damage);
+        void BackOff();
         void Update();
         void Draw(RenderTarget& target);
 

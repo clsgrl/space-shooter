@@ -21,6 +21,9 @@ class Player
         }
 
         inline const String getHpAsString() const { return std::to_string(this->hp) + "/" + std::to_string(this->hpMax); }
+        inline const int getDamage() const { return rand() % this->damageMax + this->damage; }
+        inline const int getHp() const { return this->hp; }
+        inline sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
 
         //Functions
         void UpdateAccessories();
@@ -30,6 +33,8 @@ class Player
         void Movement();
         void Update(Vector2u& windowBound);
         void Draw(RenderTarget& target);
+
+        void TakeDamage(int damage);
 
         //statics
         static unsigned playerNr;

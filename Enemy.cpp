@@ -25,6 +25,10 @@ Enemy::~Enemy()
     //dtor
 }
 
+void Enemy::BackOff()
+{
+    this->sprite.move(+40.f, 0.f);
+}
 
 void Enemy::TakeDamage(int damage)
 {

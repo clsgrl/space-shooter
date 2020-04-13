@@ -65,6 +65,8 @@ void Game::UpdateUI()
     {
         this->followPlayerTexts[i].setPosition(this->players[i].getPosition().x, this->players[i].getPosition().y - 20.f );
         this->followPlayerTexts[i].setString(std::to_string(i + 1) + "          " + this->players[i].getHpAsString());
+        if (this->players[i].getHp() == 0)
+            this->followPlayerTexts.erase(this->followPlayerTexts.begin() + i);
     }
 
     for(size_t i = 0; i < this->staticPlayerTexts.size(); i++)
@@ -109,21 +111,32 @@ void Game::Update()
                 if (this->players[i].getBullets()[j].getGlobalBounds().intersects(this->enemies[k].getGlobalBounds()))
                 {
                     this->players[i].getBullets().erase(this->players[i].getBullets().begin() + j);
+
                     this->enemies.erase(this->enemies.begin() + k);
-                    //std::cout << "HIT" << std::endl;
                     break;
                 }
             }
-
 
             //windows bound check
             if (this->players[i].getBullets()[j].getPosition().x > this->window->getSize().x - 50)
             {
                 this->players[i].getBullets().erase(this->players[i].getBullets().begin() + j);
-                //std::cout << "erased bullets" << j << "\n";
                 break;
             }
             //enemies collision check
+        }
+
+        for (size_t k = 0; k < this->enemies.size(); k++)
+        {
+            if (this->enemies[k].getGlobalBounds().intersects(this->players[i].getGlobalBounds()))
+            {
+                this->enemies[k].BackOff();
+                this->players[i].TakeDamage(1);
+                if (this->players[i].getHp() == 0)
+                {
+                    this->players.erase(this->players.begin() + i);
+                }
+            }
         }
     }
 

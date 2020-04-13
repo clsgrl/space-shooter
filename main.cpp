@@ -13,8 +13,8 @@ int main(int argc, char* argv[])
     }
     else
     {
-        w = 800;
-        h = 600;
+        w = 1024;
+        h = 768;
     }
 
     // Create the main window

@@ -44,9 +44,6 @@ void Player::UpdateAccessories()
     this->mainGunSprite.setPosition(
         this->playerCenter.x,
         this->playerCenter.y);
-
-    // std::cout << "gun position " << this->mainGunSprite.getPosition().x << " " << this->mainGunSprite.getPosition().y << "\n";
-
 }
 
 void Player::MovementMouse()
@@ -170,6 +167,13 @@ void Player::Combat()
 
         this->shootTimer = 0; // reset timer
     }
+}
+
+void Player::TakeDamage(int damage)
+{
+    this->hp -= damage;
+    if (this->hp <= 0)
+        this->hp = 0;
 }
 
 void Player::Update(Vector2u& windowBound)
