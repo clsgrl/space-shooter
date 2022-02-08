@@ -193,19 +193,31 @@ void Player::Update(Vector2u& windowBound, const float& dt)
             this->MovementJoystick();
         else
             this->Movement(dt);
-        this->UpdateAccessories(dt);
+        //this->UpdateAccessories(dt);
         this->Combat(dt);
     }
     else
     {
         if (this->sprite.getPosition().x < 0)
+        {
+            currentVelocity.y = 0;
             this->sprite.setPosition(0, this->sprite.getPosition().y);
+        }
         if (this->sprite.getPosition().x > windowBound.x)
-            this->sprite.setPosition(windowBound.x - 10, this->sprite.getPosition().y);
+        {
+            currentVelocity.x = 0;
+            this->sprite.setPosition(windowBound.x - 50, this->sprite.getPosition().y);
+        }
         if (this->sprite.getPosition().y < 0)
+        {
+            currentVelocity.y = 0;
             this->sprite.setPosition(this->sprite.getPosition().x, 0);
+        }
         if (this->sprite.getPosition().y > windowBound.y)
-            this->sprite.setPosition(this->sprite.getPosition().x, windowBound.y - 5);
+        {
+            currentVelocity.y = 0;
+            this->sprite.setPosition(this->sprite.getPosition().x, windowBound.y - 50);
+        }
     }
 }
 
