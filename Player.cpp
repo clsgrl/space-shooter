@@ -31,6 +31,7 @@ Player::Player(std::vector<Texture>& textures, Keyboard::Key UP, Keyboard::Key D
     Player::playerNr++;
     this->playerNumber = Player::playerNr;
 
+    this->dtMultiplier = 60.f;
     std::cout << "player position: " << this->sprite.getPosition().x << " " << this->sprite.getPosition().y << "\n";
 }
 
@@ -39,7 +40,7 @@ Player::~Player()
     //dtor
 }
 
-void Player::UpdateAccessories()
+void Player::UpdateAccessories(const float& dt)
 {
     this->mainGunSprite.setPosition(
         this->playerCenter.x,
@@ -76,7 +77,7 @@ void Player::MovementJoystick()
 }
 
 
-void Player::Movement()
+void Player::Movement(const float& dt)
 {
     if (Keyboard::isKeyPressed(this->controlsKey[controls::UP]))
     {
@@ -84,7 +85,7 @@ void Player::Movement()
         this->direction.y = -1.f;
 
         if (this->currentVelocity.y > -this->maxVelocity && this->direction.y < 0.f)
-            this->currentVelocity.y += this->direction.y * this->acceleration;
+            this->currentVelocity.y += this->direction.y * this->acceleration * dt * dtMultiplier;
     }
     if (Keyboard::isKeyPressed(this->controlsKey[controls::DOWN]))
     {
@@ -92,7 +93,7 @@ void Player::Movement()
         this->direction.y = 1.f;
 
         if (this->currentVelocity.y < this->maxVelocity && this->direction.y > 0.f)
-            this->currentVelocity.y += this->direction.y * this->acceleration;
+            this->currentVelocity.y += this->direction.y * this->acceleration * dt * dtMultiplier;
     }
 
     if (Keyboard::isKeyPressed(this->controlsKey[controls::LEFT]))
@@ -101,7 +102,7 @@ void Player::Movement()
         this->direction.y = 0.f;
 
         if (this->currentVelocity.x > -this->maxVelocity && this->direction.x < 0.f)
-            this->currentVelocity.x += this->direction.x * this->acceleration;
+            this->currentVelocity.x += this->direction.x * this->acceleration * dt * dtMultiplier;
 
     }
     if (Keyboard::isKeyPressed(this->controlsKey[controls::RIGHT]))
@@ -110,20 +111,20 @@ void Player::Movement()
         this->direction.y = 0.f;
 
         if (this->currentVelocity.x < this->maxVelocity && this->direction.x > 0.f)
-            this->currentVelocity.x += this->direction.x * this->acceleration;
+            this->currentVelocity.x += this->direction.x * this->acceleration * dt * dtMultiplier;
     }
 
     //drag force
     if (this->currentVelocity.x > 0)
     {
-        this->currentVelocity.x -= this->stabilizerForce;
+        this->currentVelocity.x -= this->stabilizerForce * dt * dtMultiplier;
 
         if (this->currentVelocity.x < 0)
             this->currentVelocity.x = 0;
     }
     else if (this->currentVelocity.x < 0)
     {
-        this->currentVelocity.x += this->stabilizerForce;
+        this->currentVelocity.x += this->stabilizerForce * dt * dtMultiplier;
 
         if (this->currentVelocity.x > 0)
             this->currentVelocity.x = 0;
@@ -131,21 +132,21 @@ void Player::Movement()
 
     if (this->currentVelocity.y > 0)
     {
-        this->currentVelocity.y -= this->stabilizerForce;
+        this->currentVelocity.y -= this->stabilizerForce * dt * dtMultiplier;
 
         if (this->currentVelocity.y < 0)
             this->currentVelocity.y = 0;
     }
     else if (this->currentVelocity.y < 0)
     {
-        this->currentVelocity.y += this->stabilizerForce;
+        this->currentVelocity.y += this->stabilizerForce * dt * dtMultiplier;
 
         if (this->currentVelocity.y > 0)
             this->currentVelocity.y = 0;
     }
 
     //final move
-    this->sprite.move(this->currentVelocity.x, this->currentVelocity.y);
+    this->sprite.move(this->currentVelocity.x * dt * dtMultiplier, this->currentVelocity.y * dt * dtMultiplier);
 
     //update position
     this->playerCenter.x = this->sprite.getPosition().x + this->sprite.getGlobalBounds().width / 2;
@@ -154,7 +155,7 @@ void Player::Movement()
     //std::cout << "player position= " << this->sprite.getPosition().x << " " << this->sprite.getPosition().y << "\n";
 }
 
-void Player::Combat()
+void Player::Combat(const float& dt)
 {
     if ((Keyboard::isKeyPressed(this->controlsKey[controls::SHOOT]) ||
         sf::Joystick::isButtonPressed(0, 1)
@@ -176,24 +177,24 @@ void Player::TakeDamage(int damage)
         this->hp = 0;
 }
 
-void Player::Update(Vector2u& windowBound)
+void Player::Update(Vector2u& windowBound, const float& dt)
 {
     if (this->sprite.getPosition().x >= 0 && this->sprite.getPosition().x < windowBound.x
         && this->sprite.getPosition().y >= 0 && this->sprite.getPosition().y < windowBound.y)
     {
         //update timers
         if (this->shootTimer < this->shootTimerMax)
-            this->shootTimer++;
+            this->shootTimer += 1.f * dt * dtMultiplier;
 
         if (this->damageTimer < this->damageTimerMax)
-            this->damageTimer++;
+            this->damageTimer += 1.f * dt * dtMultiplier;
 
         if (sf::Joystick::isConnected(0))
             this->MovementJoystick();
         else
-            this->Movement();
-        this->UpdateAccessories();
-        this->Combat();
+            this->Movement(dt);
+        this->UpdateAccessories(dt);
+        this->Combat(dt);
     }
     else
     {

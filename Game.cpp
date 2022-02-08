@@ -5,7 +5,9 @@ enum texture { PLAYER = 0, MISSILE, ENEMY01};
 Game::Game(RenderWindow* window)
 {
     this->window = window;
-    this->window->setFramerateLimit(60);
+    //60 frame per seconds. The function Update() is called 60 times in a second
+    this->window->setFramerateLimit(200);
+    this->dtMultiplier = 60.f;
 
     //init font
     this->font.loadFromFile("Fonts/Dosis-Light.ttf");
@@ -75,11 +77,12 @@ void Game::UpdateUI()
 
 }
 
-void Game::Update()
+//TODO: refactor this function
+void Game::Update(const float& dt)
 {
     //update timers
     if (this->enemySpawnTimer < this->enemySpawnTimerMax)
-        ++this->enemySpawnTimer;
+        this->enemySpawnTimer += 1.f * dt * dtMultiplier;
 
     //spawn enemies
     if (this->enemySpawnTimer >= this->enemySpawnTimerMax)
@@ -93,17 +96,16 @@ void Game::Update()
         this->enemySpawnTimer = 0;
     }
 
-
     sf::Vector2u windowSize = this->window->getSize();
     for (size_t i = 0; i < players.size(); i++)
     {
         this->window->getSize();
-        players[i].Update(windowSize);
+        players[i].Update(windowSize, dt);
 
         //bullets update
         for (size_t j = 0; j < this->players[i].getBullets().size(); j++)
         {
-            this->players[i].getBullets()[j].Update();
+            this->players[i].getBullets()[j].Update(dt);
 
             //enemies collision check
             for (size_t k = 0; k < this->enemies.size(); k++)
@@ -118,11 +120,16 @@ void Game::Update()
             }
 
             //windows bound check
-            if (this->players[i].getBullets()[j].getPosition().x > this->window->getSize().x - 50)
+            size_t bullets = players[i].getBullets().size();
+            if (j < bullets) // this needs to be done because the bullet[j] might have been erased before when collided with an enemy
             {
-                this->players[i].getBullets().erase(this->players[i].getBullets().begin() + j);
-                break;
+                if (this->players[i].getBullets()[j].getPosition().x > this->window->getSize().x - 50)
+                {
+                    this->players[i].getBullets().erase(this->players[i].getBullets().begin() + j);
+                    break;
+                }
             }
+            
             //enemies collision check
         }
 
@@ -143,7 +150,7 @@ void Game::Update()
     //enemies update
     for (size_t i = 0; i < this->enemies.size(); i++)
     {
-        this->enemies[i].Update();
+        this->enemies[i].Update(dt);
 
         if (this->enemies[i].getPosition().x < 0 + this->enemies[i].getGlobalBounds().width)
         {

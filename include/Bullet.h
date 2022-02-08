@@ -28,8 +28,8 @@ class Bullet
         }
 
         //Functions
-        void Movement();
-        void Update();
+        void Movement(const float& dt);
+        void Update(const float& dt);
         void Draw(RenderTarget& target);
 
     protected:
@@ -41,4 +41,6 @@ class Bullet
         float maxVelocity;
         float acceleration;
         Vector2f direction;
+
+        float dtMultiplier;
 };

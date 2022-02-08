@@ -18,7 +18,7 @@ class Enemy
 
         void TakeDamage(int damage);
         void BackOff();
-        void Update();
+        void Update(const float& dt);
         void Draw(RenderTarget& target);
 
     protected:
@@ -32,4 +32,6 @@ class Enemy
         int hpMax;
         int damageMin;
         int damageMax;
+
+        float dtMultiplier;
 };

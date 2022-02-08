@@ -1,4 +1,8 @@
-bin
+**/bin/
 obj
-.vs
-x64
+.vs/
+x64/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user

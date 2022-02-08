@@ -26,12 +26,12 @@ class Player
         inline sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
 
         //Functions
-        void UpdateAccessories();
-        void Combat();
+        void UpdateAccessories(const float& dt);
+        void Combat(const float& dt);
         void MovementMouse();
         void MovementJoystick();
-        void Movement();
-        void Update(Vector2u& windowBound);
+        void Movement(const float& dt);
+        void Update(Vector2u& windowBound, const float& dt);
         void Draw(RenderTarget& target);
 
         void TakeDamage(int damage);
@@ -46,10 +46,10 @@ class Player
         unsigned playerNumber;
         Vector2f playerCenter;
 
-        int shootTimer;
-        int shootTimerMax;
-        int damageTimer;
-        int damageTimerMax;
+        float shootTimer;
+        float shootTimerMax;
+        float damageTimer;
+        float damageTimerMax;
 
         Texture* texture;
         Texture* bulletTexture;
@@ -79,4 +79,6 @@ class Player
         int damageMax;
 
         int score;
+
+        float dtMultiplier;
 };

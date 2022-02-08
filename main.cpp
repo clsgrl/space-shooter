@@ -1,7 +1,6 @@
 #include "Game.h"
-#include <stdlib.h>
-
-// 2020-04-10: SFML / C++ Game Development 11 | 2D Space shooter
+//#include <stdlib.h>
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
@@ -23,6 +22,9 @@ int main(int argc, char* argv[])
 
     Game game(&window);
 
+    sf::Clock clock;
+    float dt = 0.f;
+
 	// Start the game loop
     while (window.isOpen())
     {
@@ -43,7 +45,11 @@ int main(int argc, char* argv[])
             }
         }
 
-        game.Update();
+        dt = clock.restart().asSeconds();
+
+        //std::cout << dt << "\n";
+
+        game.Update(dt);
         game.Draw();
         // Clear screen
         //window.clear();

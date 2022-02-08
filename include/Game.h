@@ -12,7 +12,7 @@ class Game
         void InitUI();
         void UpdateUI();
         void Clear();
-        void Update();
+        void Update(const float& dt);
         void Draw();
         void DrawUI();
 
@@ -32,7 +32,9 @@ class Game
         std::vector<Texture> textures;
         std::vector<Enemy> enemies;
 
-        int enemySpawnTimer;
-        int enemySpawnTimerMax;
+        float enemySpawnTimer;
+        float enemySpawnTimerMax;
+
+        float dtMultiplier = 60.f;
 
 };
